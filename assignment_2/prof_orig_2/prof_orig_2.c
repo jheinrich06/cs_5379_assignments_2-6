@@ -39,13 +39,13 @@ void HW2(int n, int **matrix, int *output) {
         //This succeeds in finding the smallest value in each row
         for(i=0; i<n; i++) { // <-- parallelize this loop
             tmp = output[i] ;
-            printf("\n tmp is: %d", tmp);
+            //printf("\n tmp is: %d", tmp);
             if( (!done[i]) && (tmp < leastVal) ) {
                 leastVal = tmp ;
                 leastPos = i ;
             }
         }
-        printf("\n leastVal is: %d, leastPos is: %d ",leastVal, leastPos);
+        //printf("\n leastVal is: %d, leastPos is: %d ",leastVal, leastPos);
 
         //Remove row of leastPos from candidates with done flag and increment count
         done[leastPos] = 1;
@@ -69,9 +69,35 @@ void main()
     }
     int  *output = (int *)calloc(n, sizeof(int));
 
+    data_matrix[0][0] = 0;
+    data_matrix[0][1] = 1;
+    data_matrix[0][2] = 6;
+    data_matrix[0][3] = 0;
+
+
+    data_matrix[1][0] = 1;
+    data_matrix[1][1] = 0;
+    data_matrix[1][2] = 3;
+    data_matrix[1][3] = 0;
+
+
+    data_matrix[2][0] = 6;
+    data_matrix[2][1] = 3;
+    data_matrix[2][2] = 0;
+    data_matrix[2][3] = 1;
+
+    data_matrix[3][0] = 0;
+    data_matrix[3][1] = 0;
+    data_matrix[3][2] = 1;
+    data_matrix[3][3] = 0;
+
+
+    HW2(n, data_matrix, output);
+    printf("\n outputs with zero");
     printf("\n output 0 is %d",output[0]);
     printf("\n output 1 is %d",output[1]);
     printf("\n output 2 is %d",output[2]);
+    printf("\n output 3 is %d",output[3]);
 
     data_matrix[0][0] = 0;
     data_matrix[0][1] = 1;
@@ -97,6 +123,7 @@ void main()
 
 
     HW2(n, data_matrix, output);
+    printf("\n outputs with zero turned 999");
     printf("\n output 0 is %d",output[0]);
     printf("\n output 1 is %d",output[1]);
     printf("\n output 2 is %d",output[2]);
