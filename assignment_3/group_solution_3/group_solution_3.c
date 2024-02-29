@@ -36,10 +36,10 @@ void mybarrier(MPI_Comm comm) {
             child_2 = 0;
         }
 
-        // Receive messages from below
+        // Root Receive messages from below
+        // No children case
         if(child_1 == 0 && child_2 == 0) {
             printf("Node %d exiting barrier after %d rounds \n", rank, round);
-            //return;
 
         }
         // Else recieve messages from one or 2 children below and return
@@ -224,20 +224,17 @@ void mybarrier(MPI_Comm comm) {
         // No children case
         if(child_1 == 0 && child_2 == 0) {
             printf("Node %d exiting barrier after %d rounds \n", rank, round);
-            //return;
         }
         // Else distribute to one or 2 children and exit
         else if(child_1 == 0){
             MPI_Send(&round, 1, MPI_INT, child_2, 1, comm);
             printf("Message 1 sent by node %d to node %d \n", rank, child_2);
             printf("Node %d exiting barrier after %d rounds \n", rank, round);
-            //return;
         }
         else if(child_2 == 0){
             MPI_Send(&round, 1, MPI_INT, child_1, 1, comm);
             printf("Message 1 sent by node %d to node %d \n", rank, child_1);
             printf("Node %d exiting barrier after %d rounds \n", rank, round);
-            //return;
         }
         else {
             MPI_Send(&round, 1, MPI_INT, child_1, 1, comm);
@@ -245,7 +242,6 @@ void mybarrier(MPI_Comm comm) {
             MPI_Send(&round, 1, MPI_INT, child_2, 1, comm);
             printf("Message 1 sent by node %d to node %d \n", rank, child_2);
             printf("Node %d exiting barrier after %d rounds \n", rank, round);
-            //return;
         }
     }
 
@@ -361,7 +357,8 @@ int main(int argc, char **argv) {
     // messages are printed before any "After barrier" messages.
     mybarrier(MPI_COMM_WORLD);
 
-    printf("Node %d leaves the barrier\n", rank);
+    double timestamp2 = MPI_Wtime();
+    printf("Node %d leaves the barrier at time: %f \n", rank, timestamp2);
     fflush(stdout);
 
     // Do another process
@@ -370,8 +367,8 @@ int main(int argc, char **argv) {
         int x = i % 2;
     }
 
-    double timestamp2 = MPI_Wtime();
-    printf("Task 2 complete for Node %d. Process exit at time: %f \n", rank, timestamp2 );
+    double timestamp3 = MPI_Wtime();
+    printf("Task 2 complete for Node %d. Process exit at time: %f \n", rank, timestamp3 );
     fflush(stdout);
 
     
